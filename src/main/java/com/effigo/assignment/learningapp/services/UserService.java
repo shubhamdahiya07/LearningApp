@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.effigo.assignment.learningapp.dtos.UserDto;
+import com.effigo.assignment.learningapp.models.Address;
 import com.effigo.assignment.learningapp.models.Courses;
 import com.effigo.assignment.learningapp.models.Users;
+import com.effigo.assignment.learningapp.repositories.AddressRepo;
 import com.effigo.assignment.learningapp.repositories.CoursesRepo;
 import com.effigo.assignment.learningapp.repositories.UserRepo;
 
@@ -19,6 +21,9 @@ import com.effigo.assignment.learningapp.repositories.UserRepo;
 public class UserService {
 
 	private static final Logger logger = LoggerFactory.getLogger(UserService.class);
+
+	@Autowired
+	private AddressRepo addressRepo;
 
 	@Autowired
 	private UserRepo userRepo;
@@ -104,6 +109,15 @@ public class UserService {
 		// Save the updated user entity, which will automatically persist the change to the enrolled_courses table
 		userRepo.save(user);
 		logger.info("Course marked as favorite successfully");
+		return this.userToDto(user);
+	}
+
+	public UserDto saveAddress(Integer userId, Integer addId) {
+		logger.info("Request recieved by UserService");
+		Users user = userRepo.findById(userId).get();
+		Address address = addressRepo.findById(addId).get();
+		user.getAddressList().add(address);
+		userRepo.save(user);
 		return this.userToDto(user);
 	}
 

@@ -3,6 +3,7 @@ package com.effigo.assignment.learningapp.dtos;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.effigo.assignment.learningapp.models.Address;
 import com.effigo.assignment.learningapp.models.Courses;
 
 import lombok.AllArgsConstructor;
@@ -18,4 +19,5 @@ public class UserDto {
 	private String userRole;
 	private List<Courses> courses = new ArrayList<Courses>();
 	private List<Courses> favCourses = new ArrayList<Courses>();
+	private List<Address> addressList = new ArrayList<Address>();
 }

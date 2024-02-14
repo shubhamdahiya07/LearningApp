@@ -83,4 +83,11 @@ public class UserController {
 		List<String> users = userService.findAllSortedByName();
 		return ResponseEntity.ok(users);
 	}
+
+	@PostMapping("/{userId}/address/{addId}")
+	public ResponseEntity<UserDto> saveAddress(@PathVariable Integer userId, @PathVariable Integer addId) {
+		logger.info("Received request to save address {} in user {}", userId, addId);
+		UserDto userDto = userService.saveAddress(userId, addId);
+		return new ResponseEntity<>(userDto, HttpStatus.OK);
+	}
 }
