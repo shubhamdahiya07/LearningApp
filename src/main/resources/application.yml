@@ -1,0 +1,17 @@
+# Database connection properties
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/LearnApp
+    username: postgres
+    password: sillicon
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      # Optional: Connection pool configuration
+      maximum-pool-size: 10
+      minimum-idle: 5
+
+# JPA properties
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
