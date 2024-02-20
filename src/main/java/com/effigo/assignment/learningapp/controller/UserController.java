@@ -1,6 +1,8 @@
 package com.effigo.assignment.learningapp.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +25,8 @@ import com.effigo.assignment.learningapp.services.UserService;
 @RestController
 @RequestMapping("/users")
 public class UserController {
+
+	Map<String, Object> formattedData = new HashMap<>();
 
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
@@ -89,5 +93,23 @@ public class UserController {
 		logger.info("Received request to save address {} in user {}", userId, addId);
 		UserDto userDto = userService.saveAddress(userId, addId);
 		return new ResponseEntity<>(userDto, HttpStatus.OK);
+	}
+
+	@GetMapping("/users-courses")
+	public ResponseEntity<Map<String, Object>> getUsersWithNoOfCourses() {
+		List<Map<String, Object>> userDataList = userService.getUsersWithNoOfCourses();
+
+		for (Map<String, Object> userData : userDataList) {
+			String userName = (String) userData.get("user_name");
+			Object enrolledCourses = userData.get("enrolled_courses");
+
+			// Normalize user names (optional for consistency)
+			String normalizedUserName = userName.toLowerCase();
+
+			// Use normalized name as key and update frequency map
+			formattedData.put(normalizedUserName, enrolledCourses);
+		}
+
+		return ResponseEntity.ok(formattedData);
 	}
 }
